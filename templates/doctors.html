@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Find Doctors - Medicare{% endblock %}
+
+{% block content %}
+<h2>Find a Doctor</h2>
+
+{% if doctors %}
+<div class="doctor-grid">
+    {% for doctor in doctors %}
+    <div class="doctor-card">
+        <h3>Dr. {{ doctor.user.name }}</h3>
+        <p class="specialization">{{ doctor.specialization }}</p>
+        <p>{{ doctor.qualification }} &middot; {{ doctor.experience_years }} yrs experience</p>
+        <p class="fee">Consultation Fee: ₹{{ doctor.consultation_fee }}</p>
+        <a href="{{ url_for('book_appointment', doctor_id=doctor.id) }}" class="btn btn-primary">Book Appointment</a>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p>No doctors available yet. Please check back soon.</p>
+{% endif %}
+{% endblock %}

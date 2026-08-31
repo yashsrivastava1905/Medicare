@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Prescriptions - Medicare{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h2>Prescriptions</h2>
+    {% if session.role == 'doctor' %}
+    <a href="{{ url_for('new_prescription') }}" class="btn btn-primary">+ New Prescription</a>
+    {% endif %}
+</div>
+
+{% if prescriptions %}
+<div class="list-table">
+    {% for p in prescriptions %}
+    <div class="list-row">
+        <div>
+            {% if session.role == 'doctor' %}
+                <strong>Patient:</strong> {{ p.patient.name }}
+            {% else %}
+                <strong>Dr. {{ p.doctor.user.name }}</strong>
+            {% endif %}
+            <br>
+            <span class="text-muted">Issued: {{ p.issued_date.strftime('%d %b %Y') }}</span>
+            <p class="medicines"><strong>Medicines:</strong> {{ p.medicines }}</p>
+            {% if p.instructions %}<p class="text-muted">{{ p.instructions }}</p>{% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p>No prescriptions yet.</p>
+{% endif %}
+{% endblock %}

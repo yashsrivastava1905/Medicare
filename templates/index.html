@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Medicare - Home{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>Your Health, <span>All in One Place</span></h1>
+    <p>Book doctors, manage prescriptions, store medical records, and get AI-powered health guidance — all from a single platform.</p>
+    <div class="hero-actions">
+        <a href="{{ url_for('doctor_list') }}" class="btn btn-primary">Find a Doctor</a>
+        <a href="{{ url_for('register') }}" class="btn btn-secondary">Get Started</a>
+    </div>
+</section>
+
+<section class="features">
+    <div class="feature-card">
+        <h3>Doctor Booking</h3>
+        <p>Search doctors by specialization and book appointments instantly.</p>
+    </div>
+    <div class="feature-card">
+        <h3>Digital Prescriptions</h3>
+        <p>Access and manage your prescriptions anytime, anywhere.</p>
+    </div>
+    <div class="feature-card">
+        <h3>Medical Records</h3>
+        <p>Upload and securely store your reports and scans.</p>
+    </div>
+    <div class="feature-card">
+        <h3>Medicine Reminders</h3>
+        <p>Never miss a dose with smart reminders.</p>
+    </div>
+    <div class="feature-card">
+        <h3>AI Health Chatbot</h3>
+        <p>Get instant general healthcare guidance powered by AI.</p>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}New Prescription - Medicare{% endblock %}
+
+{% block content %}
+<div class="form-card">
+    <h2>Issue New Prescription</h2>
+    <form method="POST">
+        <div class="form-group">
+            <label>Related Appointment (optional)</label>
+            <select name="appointment_id" id="appointment_id" onchange="document.getElementById('patient_id').value = this.options[this.selectedIndex].dataset.patient || ''">
+                <option value="">-- None --</option>
+                {% for a in appointments %}
+                <option value="{{ a.id }}" data-patient="{{ a.patient_id }}">
+                    {{ a.patient.name }} - {{ a.appointment_date }} {{ a.appointment_time }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Patient ID</label>
+            <input type="number" name="patient_id" id="patient_id" required placeholder="Enter patient's user ID">
+        </div>
+        <div class="form-group">
+            <label>Medicines</label>
+            <textarea name="medicines" rows="3" required placeholder="e.g. Paracetamol 500mg - 1 tablet twice daily"></textarea>
+        </div>
+        <div class="form-group">
+            <label>Instructions (optional)</label>
+            <textarea name="instructions" rows="2" placeholder="e.g. Take after meals, avoid dairy"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-full">Issue Prescription</button>
+    </form>
+</div>
+{% endblock %}

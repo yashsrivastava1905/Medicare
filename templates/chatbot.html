@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}AI Health Assistant - Medicare{% endblock %}
+
+{% block content %}
+<h2>AI Health Assistant</h2>
+<p class="text-muted">Ask general health questions. This is not a substitute for professional medical advice.</p>
+
+<div class="chat-box">
+    <div id="chat-log" class="chat-log">
+        <div class="chat-msg bot">Hello! I'm the Medicare AI Assistant. How can I help you today?</div>
+    </div>
+    <form id="chat-form" class="chat-input-row">
+        <input type="text" id="chat-input" placeholder="Type your health question..." autocomplete="off" required>
+        <button type="submit" class="btn btn-primary">Send</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const chatForm = document.getElementById('chat-form');
+const chatInput = document.getElementById('chat-input');
+const chatLog = document.getElementById('chat-log');
+
+function addMessage(text, sender) {
+    const div = document.createElement('div');
+    div.className = 'chat-msg ' + sender;
+    div.textContent = text;
+    chatLog.appendChild(div);
+    chatLog.scrollTop = chatLog.scrollHeight;
+}
+
+chatForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const message = chatInput.value.trim();
+    if (!message) return;
+    addMessage(message, 'user');
+    chatInput.value = '';
+
+    try {
+        const res = await fetch('/api/chatbot', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message })
+        });
+        const data = await res.json();
+        addMessage(data.reply || 'Sorry, something went wrong.', 'bot');
+    } catch (err) {
+        addMessage('Sorry, I could not connect. Please try again.', 'bot');
+    }
+});
+</script>
+{% endblock %}

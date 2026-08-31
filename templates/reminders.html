@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Medicine Reminders - Medicare{% endblock %}
+
+{% block content %}
+<h2>Medicine Reminders</h2>
+
+<div class="form-card upload-card">
+    <h3>Add New Reminder</h3>
+    <form method="POST" action="{{ url_for('new_reminder') }}">
+        <div class="form-group">
+            <label>Medicine Name</label>
+            <input type="text" name="medicine_name" required>
+        </div>
+        <div class="form-group">
+            <label>Dosage</label>
+            <input type="text" name="dosage" placeholder="e.g. 1 tablet, 5ml">
+        </div>
+        <div class="form-group">
+            <label>Time</label>
+            <input type="time" name="reminder_time" required>
+        </div>
+        <div class="form-group">
+            <label>Frequency</label>
+            <select name="frequency">
+                <option value="daily">Daily</option>
+                <option value="twice-daily">Twice Daily</option>
+                <option value="weekly">Weekly</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Reminder</button>
+    </form>
+</div>
+
+{% if reminders %}
+<div class="list-table">
+    {% for r in reminders %}
+    <div class="list-row">
+        <div>
+            <strong>{{ r.medicine_name }}</strong> {% if r.dosage %}({{ r.dosage }}){% endif %}
+            <br>
+            <span class="text-muted">{{ r.reminder_time }} &middot; {{ r.frequency|capitalize }}</span>
+        </div>
+        <div class="list-actions">
+            <span class="status-badge {{ 'status-confirmed' if r.active else 'status-cancelled' }}">
+                {{ 'Active' if r.active else 'Paused' }}
+            </span>
+            <form method="POST" action="{{ url_for('toggle_reminder', reminder_id=r.id) }}">
+                <button type="submit" class="btn btn-secondary btn-sm">{{ 'Pause' if r.active else 'Resume' }}</button>
+            </form>
+            <form method="POST" action="{{ url_for('delete_reminder', reminder_id=r.id) }}" onsubmit="return confirm('Delete this reminder?')">
+                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+            </form>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p>No reminders set yet.</p>
+{% endif %}
+{% endblock %}

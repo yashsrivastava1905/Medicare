@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - Medicare{% endblock %}
+
+{% block content %}
+<h2>Welcome, {{ user.name }}</h2>
+<p class="role-badge">{{ user.role|capitalize }}</p>
+
+<div class="dashboard-grid">
+    <a href="{{ url_for('my_appointments') }}" class="dashboard-card">
+        <h3>Appointments</h3>
+        <p>View and manage your appointments.</p>
+    </a>
+    <a href="{{ url_for('prescriptions') }}" class="dashboard-card">
+        <h3>Prescriptions</h3>
+        <p>Access your digital prescriptions.</p>
+    </a>
+    <a href="{{ url_for('records') }}" class="dashboard-card">
+        <h3>Medical Records</h3>
+        <p>Upload or download your medical reports.</p>
+    </a>
+    <a href="{{ url_for('reminders') }}" class="dashboard-card">
+        <h3>Reminders</h3>
+        <p>Manage your medicine reminders.</p>
+    </a>
+    <a href="{{ url_for('chatbot_page') }}" class="dashboard-card">
+        <h3>AI Chatbot</h3>
+        <p>Ask health-related questions anytime.</p>
+    </a>
+    {% if user.role == 'doctor' %}
+    <a href="{{ url_for('new_prescription') }}" class="dashboard-card">
+        <h3>Issue Prescription</h3>
+        <p>Write a new prescription for a patient.</p>
+    </a>
+    {% endif %}
+</div>
+{% endblock %}
