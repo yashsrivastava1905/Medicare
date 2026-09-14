@@ -508,8 +508,8 @@ def chatbot_api():
     message = data.get('message', '').strip()
     if not message:
         return jsonify({'error': 'Message is required'}), 400
-    reply = get_bot_reply(message)
-    return jsonify({'reply': reply})
+    result = get_bot_response(message)
+    return jsonify(result)
 
 
 # ---------------------------------------------------------------
